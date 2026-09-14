@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harvest Signal | Fruit Monitoring</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">HS</span><span>HARVEST<br><strong>SIGNAL</strong></span></div>
+    <div class="sidebar-label">COMMAND CENTER</div>
+    <nav><a class="nav-link active" href="#overview"><span>◈</span> Overview</a><a class="nav-link" href="#sensors"><span>⌁</span> Sensor telemetry</a><a class="nav-link" href="#logistics"><span>↗</span> Logistics</a><a class="nav-link" href="#agents"><span>◎</span> Agent network</a></nav>
+    <div class="sidebar-footer"><span class="pulse"></span><div><small>MOCK ENVIRONMENT</small><br><strong>All systems nominal</strong></div></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar"><div><p class="eyebrow">FRIDAY · 04 SEPTEMBER 2026</p><h1>Good morning, operator.</h1></div><div class="top-actions"><span class="live-dot"></span><span>Live monitoring</span><button class="refresh" id="refreshButton" aria-label="Refresh dashboard">↻</button></div></header>
+    <div class="mock-banner">DEMO DATA <span>Connected to local mock API · Replace with backend feed during integration</span></div>
+    <section id="overview" class="hero-grid">
+      <div class="condition-panel panel"><div class="panel-kicker">CURRENT BATCH <span class="tag">F001</span></div><div class="condition-row"><div><h2>RIPE</h2><p>Ready for intelligent dispatch</p></div><div class="confidence"><strong id="confidence">87%</strong><span>confidence</span></div></div><div class="shelf-life"><div><span>REMAINING SHELF LIFE</span><strong id="shelfLife">3 days</strong></div><div class="shelf-track"><i></i></div><small>Dispatch window closes soon</small></div></div>
+      <div class="priority-panel panel"><div class="panel-kicker">LOGISTICS SIGNAL</div><div class="priority-ring"><span>HIGH<br><small>PRIORITY</small></span></div><p id="dispatchStatus">Dispatch recommended</p><span class="muted">Destination and vehicle selected</span></div>
+    </section>
+    <section class="metrics-grid" id="sensors"><div class="metric panel"><span class="metric-icon orange">°</span><div><small>TEMPERATURE</small><strong id="temperature">27.1 <em>°C</em></strong><span class="trend up">↑ 0.4° today</span></div></div><div class="metric panel"><span class="metric-icon teal">≈</span><div><small>HUMIDITY</small><strong id="humidity">65.4 <em>%</em></strong><span class="trend stable">● stable range</span></div></div><div class="metric panel"><span class="metric-icon blue">⌁</span><div><small>PRESSURE</small><strong id="pressure">1008.2 <em>hPa</em></strong><span class="trend stable">● sensor online</span></div></div><div class="metric panel"><span class="metric-icon green">◌</span><div><small>GAS RESISTANCE</small><strong id="gasResistance">95.3 <em>kΩ</em></strong><span class="trend down">↓ 2.1% today</span></div></div></section>
+    <section class="content-grid"><div class="panel chart-panel"><div class="section-heading"><div><p class="eyebrow">SENSING AGENT · LAST 3 HOURS</p><h3>Environmental telemetry</h3></div><select id="chartSelect" aria-label="Select telemetry metric"><option value="temperature">Temperature</option><option value="humidity">Humidity</option><option value="gas_resistance">Gas resistance</option></select></div><div class="chart-wrap"><svg id="chart" viewBox="0 0 700 220" role="img" aria-label="Sensor history chart"></svg></div></div><div class="panel prediction-panel"><div class="section-heading"><div><p class="eyebrow">FORECASTING AGENT</p><h3>Prediction history</h3></div><span class="status-pill">ONLINE</span></div><div id="predictionHistory" class="history-list"></div></div></section>
+    <section class="content-grid logistics-grid" id="logistics"><div class="panel map-panel"><div class="section-heading"><div><p class="eyebrow">LOGISTICS AGENT · ROUTE PLAN</p><h3>Recommended dispatch</h3></div><span class="status-pill high">HIGH PRIORITY</span></div><div class="map" id="map"><div class="map-grid"></div><div class="road road-one"></div><div class="road road-two"></div><div class="route-line"></div><div class="map-point warehouse"><b>W</b><span>Warehouse</span></div><div class="map-point store"><b>S</b><span id="mapStore">Daily Harvest</span></div></div><div class="route-summary"><div><small>DESTINATION</small><strong id="destination">Daily Harvest · Ulsoor</strong></div><div><small>DISTANCE</small><strong id="distance">4.8 km</strong></div><div><small>ETA</small><strong id="eta">25 min</strong></div></div></div><div class="panel stores-panel"><div class="section-heading"><div><p class="eyebrow">DESTINATION OPTIONS</p><h3>Store suitability</h3></div></div><div id="storeList"></div></div></section>
+    <section class="bottom-grid" id="agents"><div class="panel negotiation-panel"><div class="section-heading"><div><p class="eyebrow">NEGOTIATOR AGENT · CONTRACT NET</p><h3>Vehicle negotiation</h3></div><span class="status-pill">COMPLETED</span></div><div class="task-line"><span>DELIVERY TASK</span><strong>F001 → <b id="taskDestination">Daily Harvest</b></strong></div><div id="vehicleList" class="vehicle-list"></div></div><div class="panel agents-panel"><div class="section-heading"><div><p class="eyebrow">SYSTEM HEALTH</p><h3>Agent network</h3></div><span class="live-dot"></span></div><div id="agentList"></div></div></section>
+    <footer>Harvest Signal · Multi-agent fruit monitoring prototype <span>MOCK DATA ONLY</span></footer>
+  </main>
+</div><script src="app.js"></script>
+</body>
+</html>

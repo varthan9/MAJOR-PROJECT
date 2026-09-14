@@ -1,0 +1,346 @@
+I am responsible for the FRONTEND of a college major project.
+
+The project is a multi-agent fruit monitoring and intelligent logistics system.
+
+Another teammate is handling the ESP32/BME688 sensing system and ML prediction. Another teammate is handling the backend, MQTT, database, Logistics Agent and Negotiator Agent.
+
+You should NOT wait for their real implementation.
+
+Build the frontend using MOCK DATA first.
+
+==================================================
+PROJECT CONCEPT
+==================================================
+
+The final system will work approximately like:
+
+BME688
+   ↓
+ESP32
+   ↓
+Sensing Agent
+   ↓
+Forecasting Agent
+   ↓
+Fruit condition prediction
+   ↓
+Logistics Agent
+   ↓
+Negotiator Agent
+   ↓
+Store + vehicle + route
+   ↓
+Web Dashboard
+
+Example:
+
+Prediction:
+"Batch F001 = RIPE
+Confidence = 87%
+Remaining shelf life = 3 days"
+
+Logistics:
+"High priority.
+Recommended destination = Store B."
+
+Negotiator:
+"Vehicle 2 selected."
+
+The dashboard should visualize this information.
+
+==================================================
+YOUR RESPONSIBILITIES
+==================================================
+
+Build a complete web dashboard containing:
+
+1. Overall system overview
+2. Sensor information
+3. Fruit prediction
+4. Prediction confidence
+5. Fruit/batch information
+6. Remaining shelf life
+7. Historical sensor data
+8. Prediction history
+9. Logistics information
+10. Store selection
+11. Map
+12. Route visualization
+13. Vehicle information
+14. Negotiator/agent status
+15. Overall system/agent status
+
+==================================================
+MAIN DASHBOARD
+==================================================
+
+The dashboard should have a clear main overview.
+
+Example:
+
+FRUIT MONITORING SYSTEM
+
+Current Batch:
+F001
+
+Condition:
+RIPE
+
+Confidence:
+87%
+
+Remaining shelf life:
+3 days
+
+Temperature:
+27.1 °C
+
+Humidity:
+65.4 %
+
+Gas resistance:
+95.3 kΩ
+
+Logistics status:
+HIGH PRIORITY
+
+Recommended store:
+Store B
+
+Vehicle:
+Vehicle 2
+
+==================================================
+SENSOR SECTION
+==================================================
+
+Display sensor information such as:
+
+- Temperature
+- Humidity
+- Pressure
+- Gas resistance
+- Other available BME688/BSEC values
+
+Include historical graphs where useful.
+
+Use mock time-series data initially.
+
+==================================================
+FORECASTING SECTION
+==================================================
+
+Display:
+
+- Current fruit condition
+- Prediction confidence
+- Remaining shelf life
+- Prediction history
+
+Example:
+
+FRESH → 92%
+RIPE → 87%
+SPOILED → 91%
+
+The exact prediction output will later come from the real ESP32/model.
+
+==================================================
+LOGISTICS SECTION
+==================================================
+
+Display:
+
+- Batch
+- Condition
+- Remaining shelf life
+- Dispatch priority
+- Recommended destination
+- Available stores
+- Selected store
+- Vehicle
+- Delivery status
+
+The user should be able to select a store/destination from the frontend if appropriate.
+
+==================================================
+MAP
+==================================================
+
+Include a map showing:
+
+- Warehouse/origin
+- Available stores
+- Selected destination
+- Delivery route
+
+Use mock coordinates initially.
+
+Example:
+
+Warehouse
+    ↓
+Route
+    ↓
+Store B
+
+The map does not need to be extremely sophisticated.
+
+The important thing is that it clearly demonstrates the logistics concept.
+
+==================================================
+NEGOTIATOR SECTION
+==================================================
+
+Show information such as:
+
+Negotiation Status:
+COMPLETED
+
+Delivery Task:
+Batch F001 → Store B
+
+Available vehicles:
+Vehicle 1
+Vehicle 2
+Vehicle 3
+
+Selected:
+Vehicle 2
+
+This should visually demonstrate that the Negotiator Agent participated in selecting the resource.
+
+==================================================
+AGENT STATUS
+==================================================
+
+Create a section showing:
+
+Sensing Agent       ONLINE
+Forecasting Agent   ONLINE
+Logistics Agent     ONLINE
+Negotiator Agent    ONLINE
+
+The status can initially use mock values.
+
+==================================================
+MOCK DATA
+==================================================
+
+Use mock JSON such as:
+
+{
+  "fruit_id": "F001",
+  "condition": "RIPE",
+  "confidence": 0.87,
+  "remaining_shelf_life_days": 3,
+  "temperature": 27.1,
+  "humidity": 65.4,
+  "gas_resistance": 95321
+}
+
+Logistics mock data:
+
+{
+  "destination": "Store B",
+  "distance_km": 4.8,
+  "vehicle": "Vehicle 2",
+  "priority": "HIGH",
+  "status": "DISPATCH_RECOMMENDED"
+}
+
+Store mock data:
+
+[
+  {
+    "id": "S001",
+    "name": "Store A",
+    "latitude": 12.9716,
+    "longitude": 77.5946
+  },
+  {
+    "id": "S002",
+    "name": "Store B",
+    "latitude": 12.9750,
+    "longitude": 77.6000
+  }
+]
+
+These are MOCK VALUES only and must not be presented as real experimental results.
+
+==================================================
+BACKEND INTEGRATION
+==================================================
+
+Eventually the frontend will receive real information from the backend.
+
+The frontend should therefore be structured so that mock data can later be replaced with API calls.
+
+The frontend should NOT directly communicate with the ESP32.
+
+The intended architecture is:
+
+ESP32
+ ↓
+MQTT
+ ↓
+Backend
+ ↓
+REST API / WebSocket
+ ↓
+Frontend
+
+The exact API endpoints and JSON field names will be finalized during integration.
+
+Do not tightly couple the UI to the current mock JSON structure.
+
+==================================================
+DEVELOPMENT STRATEGY
+==================================================
+
+We have limited time.
+
+Do not wait for the backend or ML model.
+
+Start with:
+
+1. Frontend project setup
+2. Dashboard layout
+3. Mock data
+4. Sensor cards
+5. Prediction section
+6. Charts
+7. Logistics section
+8. Map
+9. Store selection
+10. Vehicle/negotiation section
+11. Agent status
+12. Responsive UI
+13. Prepare API integration layer
+
+Keep the UI clean and professional but do not spend excessive time on unnecessary animations or production-level features.
+
+The main goal is a working demonstrable college-project dashboard.
+
+==================================================
+YOUR FIRST TASK
+==================================================
+
+Before writing code, give me:
+
+1. Recommended frontend technology stack
+2. Project folder structure
+3. Main dashboard layout
+4. Components/pages required
+5. Mock data structure
+6. API integration structure
+7. Map implementation approach
+8. Step-by-step implementation order
+
+Then start implementing the frontend component by component.
+
+Remember:
+
+BUILD WITH MOCK DATA NOW.
+
+The real backend, ESP32 and ML prediction will be connected later during integration/debugging.

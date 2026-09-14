@@ -1,0 +1,310 @@
+I am working on the BACKEND of a college major project.
+
+The project is a multi-agent fruit monitoring and intelligent logistics system.
+
+The hardware/sensing and ML prediction portions are being developed by another teammate, so DO NOT wait for the real ESP32 or trained model. Use MOCK DATA initially.
+
+Your goal is to build the backend and the backend-side multi-agent system so that it can later connect to the real ESP32 and ML prediction system.
+
+==================================================
+PROJECT CONCEPT
+==================================================
+
+The system works like this:
+
+BME688 + ESP32
+      ↓
+Sensing Agent
+      ↓
+Forecasting Agent
+      ↓
+Fruit condition prediction
+      ↓
+Logistics Agent
+      ↓
+Negotiator Agent
+      ↓
+Store + vehicle + route decision
+      ↓
+Web Dashboard
+
+Example:
+
+Forecasting Agent:
+"Batch F001 is RIPE and has approximately 3 days remaining."
+
+Logistics Agent:
+"This batch should be dispatched with high priority and a suitable store should be selected."
+
+Negotiator Agent:
+"Vehicle 2 is the best available resource for this delivery."
+
+Frontend:
+Displays all of this on a dashboard and map.
+
+==================================================
+YOUR RESPONSIBILITIES
+==================================================
+
+You are responsible for:
+
+1. Backend server
+2. MQTT communication
+3. REST APIs and/or WebSockets
+4. Database
+5. Logistics Agent
+6. Negotiator Agent
+7. Communication between agents
+8. Preparing the backend so the frontend can consume the data
+
+==================================================
+LOGISTICS AGENT
+==================================================
+
+The Logistics Agent should receive information such as:
+
+- Fruit/batch ID
+- Fruit condition
+- Prediction confidence
+- Remaining shelf life
+- Store information
+- Store distance
+- Store capacity/demand
+- Vehicle availability
+- Delivery information
+
+It should determine a suitable logistics action.
+
+Do not simply implement "nearest store."
+
+The decision can consider:
+- Remaining shelf life
+- Distance
+- Store suitability
+- Demand/capacity
+- Delivery time
+- Priority
+
+For a college prototype, this can be implemented using a simple scoring/optimization approach rather than an extremely complicated algorithm.
+
+Example:
+
+Batch:
+RIPE
+3 days remaining
+
+Available stores:
+Store A — 2 km — low demand
+Store B — 5 km — high demand
+Store C — 8 km — medium demand
+
+The Logistics Agent should be able to recommend a suitable store.
+
+==================================================
+NEGOTIATOR AGENT
+==================================================
+
+The project uses the concept of the Contract Net Protocol.
+
+Implement a practical simplified version.
+
+Example:
+
+Logistics Agent creates a delivery task:
+
+"Deliver Batch F001 to Store B."
+
+Available vehicles:
+
+Vehicle 1
+- Available
+- 10 km away
+
+Vehicle 2
+- Available
+- 3 km away
+
+Vehicle 3
+- Busy
+
+The Negotiator Agent can request/compare bids and select the best available resource.
+
+The final result might be:
+
+Vehicle 2 selected.
+
+Make sure the implementation clearly demonstrates the concept of negotiation between agents.
+
+==================================================
+MOCK DATA
+==================================================
+
+Use mock data initially.
+
+Example prediction:
+
+{
+  "fruit_id": "F001",
+  "condition": "RIPE",
+  "confidence": 0.87,
+  "remaining_shelf_life_days": 3,
+  "temperature": 27.1,
+  "humidity": 65.4,
+  "gas_resistance": 95321
+}
+
+Example stores:
+
+[
+  {
+    "id": "S001",
+    "name": "Store A",
+    "latitude": 12.9716,
+    "longitude": 77.5946,
+    "capacity": 100,
+    "demand": 40
+  },
+  {
+    "id": "S002",
+    "name": "Store B",
+    "latitude": 12.9750,
+    "longitude": 77.6000,
+    "capacity": 150,
+    "demand": 100
+  }
+]
+
+Example vehicles:
+
+[
+  {
+    "id": "V001",
+    "available": true
+  },
+  {
+    "id": "V002",
+    "available": true
+  },
+  {
+    "id": "V003",
+    "available": false
+  }
+]
+
+These are only MOCK VALUES.
+
+==================================================
+EXPECTED BACKEND FUNCTION
+==================================================
+
+The backend should eventually be able to receive something like:
+
+{
+  "fruit_id": "F001",
+  "condition": "RIPE",
+  "confidence": 0.87,
+  "remaining_shelf_life_days": 3
+}
+
+Then:
+
+1. Store the prediction.
+2. Run Logistics Agent.
+3. Determine suitable destination(s).
+4. Run Negotiator Agent.
+5. Select an appropriate vehicle/resource.
+6. Store the final logistics decision.
+7. Make the result available to the frontend.
+
+==================================================
+API
+==================================================
+
+Create simple APIs that allow the frontend to retrieve:
+
+- Latest sensor data
+- Sensor history
+- Latest prediction
+- Prediction history
+- Fruit/batch information
+- Available stores
+- Logistics recommendations
+- Selected destination
+- Available vehicles
+- Negotiation status
+- Final dispatch decision
+- Agent statuses
+
+Design the endpoints sensibly.
+
+==================================================
+DATABASE
+==================================================
+
+Create a simple database structure for:
+
+- Fruit batches
+- Sensor readings
+- Predictions
+- Stores
+- Vehicles
+- Logistics decisions
+- Negotiation results
+
+Do not over-engineer the database.
+
+==================================================
+MQTT
+==================================================
+
+Prepare MQTT communication so that the ESP32 can eventually publish sensor/prediction data.
+
+Use clear topic names, for example:
+
+fruit_monitor/sensor
+fruit_monitor/prediction
+fruit_monitor/logistics
+fruit_monitor/negotiation
+
+These names can be changed later.
+
+For now, use mock publishers if necessary.
+
+==================================================
+DEVELOPMENT STRATEGY
+==================================================
+
+You should start immediately using mock data.
+
+Do not wait for the other teammate to finish the ML model.
+
+Build:
+
+1. Backend server
+2. Database
+3. Mock prediction input
+4. Logistics Agent
+5. Negotiator Agent
+6. API
+7. MQTT interface
+8. Test everything with mock data
+
+Later, when the ESP32/model is ready, we will replace the mock input with the real data and debug the JSON/MQTT integration.
+
+==================================================
+YOUR FIRST TASK
+==================================================
+
+Before writing code, give me:
+
+1. Recommended backend technology stack
+2. Project folder structure
+3. Database schema
+4. MQTT topic design
+5. API endpoint list
+6. Data flow between the four agents
+7. Step-by-step implementation order
+
+Then start implementing the backend one component at a time.
+
+Prioritize a working college-project prototype over production-level complexity.

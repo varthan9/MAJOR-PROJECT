@@ -1,0 +1,374 @@
+You are helping me develop a college major project. This is a multi-agent fruit monitoring and intelligent logistics system.
+
+I am working on the sensing and forecasting portion of the project, while my teammates are working independently on the backend, frontend, logistics agent, and negotiator agent.
+
+IMPORTANT: We are short on development time, so do not over-engineer the system. Prioritize getting a complete working prototype/demo rather than building a production-grade system.
+
+==================================================
+PROJECT OVERVIEW
+==================================================
+
+The project monitors the condition of stored fruit using a Bosch BME688 gas sensor connected to an ESP32.
+
+The system collects environmental and gas-related sensor data. The collected data will be used to train a machine-learning classification model that can classify fruit condition into categories such as:
+
+- FRESH
+- RIPE
+- SPOILED
+
+The trained prediction algorithm will eventually run with the ESP32/BSEC system so that a new fruit/batch can be tested and its condition predicted.
+
+The project is NOT only a fruit-prediction system. It is a MULTI-AGENT SYSTEM consisting of:
+
+1. Sensing Agent
+2. Forecasting Agent
+3. Logistics Agent
+4. Negotiator Agent
+
+There will also be a web dashboard through which the user can monitor the system and visualize predictions, logistics decisions, routes, stores, etc.
+
+==================================================
+AGENTS
+==================================================
+
+1. SENSING AGENT
+----------------
+
+Hardware:
+- ESP32 DevKit V1
+- Bosch BME688
+- BSEC library
+- SD card module
+
+Responsibilities:
+- Collect sensor readings
+- Monitor gas-related measurements
+- Monitor temperature, humidity, pressure, etc.
+- Log measurements to SD card
+- Provide sensor data to the rest of the system
+
+This portion is being handled by me.
+
+The current ESP32 system wakes up periodically, activates the sensor for approximately 5 minutes, logs data, and then goes into deep sleep before the next cycle.
+
+The exact CSV format and AI-Studio compatibility will be verified later before the final dataset/model training.
+
+--------------------------------------------------
+
+2. FORECASTING AGENT
+--------------------
+
+Responsibilities:
+- Use BME688 sensor data
+- Train a classification model
+- Classify fruit condition
+- Eventually run the trained model on/alongside the ESP32/BSEC system
+- Produce a prediction such as:
+
+  FRESH
+  RIPE
+  SPOILED
+
+It may also provide a confidence/probability value and potentially an estimated remaining shelf life.
+
+Example output:
+
+{
+  "fruit_id": "F001",
+  "condition": "RIPE",
+  "confidence": 0.87,
+  "remaining_shelf_life_days": 3
+}
+
+The exact fields will be finalized later.
+
+The model training and deployment are being handled by me.
+
+--------------------------------------------------
+
+3. LOGISTICS AGENT
+------------------
+
+The Logistics Agent takes the fruit prediction and determines what should happen with the batch.
+
+Example:
+
+Forecasting Agent:
+"Batch A is RIPE and has approximately 3 days remaining."
+
+Logistics Agent:
+"This batch should be dispatched soon. Find a suitable destination."
+
+The Logistics Agent should consider factors such as:
+- Fruit condition
+- Remaining shelf life
+- Store distance
+- Store demand/capacity
+- Available transport
+- Delivery time
+- Priority of the batch
+
+Do NOT reduce the Logistics Agent to simply "find the nearest store."
+
+The goal is to determine a suitable destination and logistics decision.
+
+--------------------------------------------------
+
+4. NEGOTIATOR AGENT
+-------------------
+
+The Negotiator Agent works together with the Logistics Agent.
+
+The project concept includes the Contract Net Protocol.
+
+The Negotiator Agent can be responsible for:
+- Checking available vehicles/resources
+- Receiving/submitting bids or offers
+- Comparing possible resources
+- Selecting the most suitable vehicle/resource
+- Helping finalize the delivery decision
+
+Example:
+
+Logistics Agent:
+"Batch A must be delivered to Store B."
+
+Negotiator Agent:
+- Vehicle 1 available
+- Vehicle 2 available
+- Vehicle 3 unavailable
+
+After negotiation:
+"Vehicle 2 selected."
+
+The exact negotiation logic can be simplified enough to be practical for a college project, but the system should demonstrate the concept of agent-to-agent negotiation.
+
+==================================================
+OVERALL SYSTEM FLOW
+==================================================
+
+The intended final system is:
+
+BME688
+   ↓
+ESP32
+   ↓
+Sensing Agent
+   ↓
+Forecasting Agent
+   ↓
+"Batch A = RIPE
+ approximately 3 days remaining"
+   ↓
+Logistics Agent
+   ↓
+"Select suitable store/destination"
+   ↓
+Negotiator Agent
+   ↓
+"Select suitable vehicle/resource"
+   ↓
+Backend
+   ↓
+Frontend Web Dashboard
+   ↓
+User sees prediction, batch status, destination, vehicle and route on a map
+
+==================================================
+WEB DASHBOARD
+==================================================
+
+The web dashboard should eventually show things such as:
+
+- Current fruit condition
+- Prediction confidence
+- Temperature
+- Humidity
+- Gas-related readings
+- Fruit/batch information
+- Remaining shelf life
+- Prediction history
+- Logistics status
+- Selected destination/store
+- Selected vehicle
+- Route
+- Map visualization
+- Agent status
+- Negotiation status
+
+The user should be able to interact with the system through the frontend.
+
+For example, the user may be able to select a store/destination from the map or available stores.
+
+==================================================
+BACKEND
+==================================================
+
+The backend should act as the central communication layer.
+
+It may contain:
+- MQTT communication
+- REST APIs
+- Database
+- Agent logic
+- Sensor data handling
+- Prediction data handling
+- Logistics logic
+- Negotiation logic
+
+The frontend should communicate with the backend rather than directly communicating with the ESP32.
+
+Conceptually:
+
+ESP32
+ ↓
+MQTT
+ ↓
+Backend
+ ↓
+Database / Agent logic
+ ↓
+REST API or WebSocket
+ ↓
+Frontend
+
+The exact technologies can be selected based on practicality.
+
+==================================================
+FRONTEND
+==================================================
+
+The frontend should provide a clear web dashboard.
+
+It should visualize:
+- Sensor data
+- Prediction
+- Confidence
+- Fruit/batch status
+- Remaining shelf life
+- Logistics decision
+- Store/destination
+- Vehicle
+- Route
+- Agent statuses
+
+A map should be included if practical.
+
+The frontend does NOT need to know how the ML model works internally.
+
+It should receive information from the backend.
+
+==================================================
+DEVELOPMENT STRATEGY
+==================================================
+
+We are short on time.
+
+Therefore, teammates should work independently using MOCK DATA initially.
+
+They should NOT wait for the real ESP32/model.
+
+The backend and frontend can initially use hard-coded or generated example JSON such as:
+
+{
+  "fruit_id": "F001",
+  "condition": "RIPE",
+  "confidence": 0.87,
+  "remaining_shelf_life_days": 3,
+  "temperature": 27.1,
+  "humidity": 65.4,
+  "gas_resistance": 95321
+}
+
+Example logistics result:
+
+{
+  "destination": "Store B",
+  "distance_km": 4.8,
+  "vehicle": "Vehicle 2",
+  "priority": "HIGH",
+  "status": "DISPATCH_RECOMMENDED"
+}
+
+These values are MOCK VALUES and must not be presented as real experimental results.
+
+Later, when my ESP32/model is ready, we will replace the mock data with the real data and debug the interface between components.
+
+==================================================
+CURRENT WORK DIVISION
+==================================================
+
+ME:
+- ESP32
+- BME688
+- BSEC
+- Hardware
+- Sensor data collection
+- Baseline experiment
+- Fruit experiment
+- AI-Studio
+- Model training
+- Model evaluation
+- Prediction
+- Model deployment/integration
+
+TEAMMATE 1:
+- Backend
+- MQTT
+- REST API
+- Database
+- Logistics Agent
+- Negotiator Agent
+- Backend-side agent communication
+
+TEAMMATE 2:
+- Frontend
+- Web dashboard
+- Charts
+- Prediction display
+- Sensor display
+- Map
+- Logistics visualization
+- Agent status visualization
+
+==================================================
+IMPORTANT DEVELOPMENT PRINCIPLE
+==================================================
+
+Do not spend too much time trying to perfectly integrate everything immediately.
+
+Build each part independently with mock data.
+
+The integration will happen later.
+
+At integration time, we can modify:
+- JSON fields
+- MQTT topics
+- API endpoints
+- database fields
+- frontend field names
+
+to make the components communicate correctly.
+
+The goal is a COMPLETE WORKING DEMONSTRATION.
+
+==================================================
+WHAT I WANT FROM YOU
+==================================================
+
+You are helping me develop my assigned portion of this project.
+
+First understand the architecture above.
+
+Then determine what needs to be done for the portion I am responsible for.
+
+Do not assume that components which are still being developed are already finished.
+
+When suggesting implementation, prioritize:
+1. Working prototype
+2. Simple architecture
+3. Easy integration
+4. Demonstrability
+5. Completion within limited time
+
+Avoid unnecessary production-level complexity.
